@@ -25,14 +25,14 @@ private
 Ω⁴ A x = Ω (Ω³ A x) refl
 
 -- commutative square of loops
-1+1-cell : (p q : Ω A x) → Type _
-1+1-cell p q = PathP (λ i → p i ≡ p i) q q
+1+1-cell : (α β : Ω A x) → Type _
+1+1-cell α β = PathP (λ i → α i ≡ α i) β β
 
 -- higher analogue, modeled after the 4-cell in J₂S²... apparently,
 -- elements of this type are trivializations of the Whitehead product
 -- of the two given loops (this is also true of the 1+1-cell I
 -- suppose?)
-2+2-cell : (p q : Ω² A x) → Type _
+2+2-cell : (α β : Ω² A x) → Type _
 2+2-cell {A = A} α β =
   PathP (λ i → PathP (λ j → PathP (λ a → PathP (λ b → A)
                                                (α i j)
@@ -46,7 +46,7 @@ private
 
 -- "cubical Eckmann-Hilton." This induces a proof of the usual
 -- statement of EH in the obvious way.
-cubicalEH : (p q : Ω² A x) → 1+1-cell {A = Ω A x} p q
+cubicalEH : (α β : Ω² A x) → 1+1-cell {A = Ω A x} α β
 cubicalEH {A = A} {x = x} α β i j k =
   hcomp (λ l → λ { (i = i0) → β j (k ∧ l)
                  ; (i = i1) → β j (k ∧ l)
@@ -61,17 +61,17 @@ cubicalEH {A = A} {x = x} α β i j k =
 -- already be called syllepsis? But another step will be convenient.)
 2+2-thingy : (α β : Ω³ A x) → 2+2-cell {A = Ω A x} α β
 2+2-thingy {A = A} {x = x} α β i j a b z =
-  hcomp (λ { f (z = i0) → β a b (~ f)
-           ; f (z = i1) → α i j f
-           ; f (i = i0) → β a b (z ∨ ~ f)
-           ; f (i = i1) → β a b (z ∨ ~ f)
-           ; f (j = i0) → β a b (z ∨ ~ f)
-           ; f (j = i1) → β a b (z ∨ ~ f)
-           ; f (a = i0) → α i j (z ∧ f)
-           ; f (a = i1) → α i j (z ∧ f)
-           ; f (b = i0) → α i j (z ∧ f)
-           ; f (b = i1) → α i j (z ∧ f)
-           })
+  hcomp (λ f → λ { (z = i0) → β a b (~ f)
+                 ; (z = i1) → α i j f
+                 ; (i = i0) → β a b (z ∨ ~ f)
+                 ; (i = i1) → β a b (z ∨ ~ f)
+                 ; (j = i0) → β a b (z ∨ ~ f)
+                 ; (j = i1) → β a b (z ∨ ~ f)
+                 ; (a = i0) → α i j (z ∧ f)
+                 ; (a = i1) → α i j (z ∧ f)
+                 ; (b = i0) → α i j (z ∧ f)
+                 ; (b = i1) → α i j (z ∧ f)
+                 })
         x
 
 -- This gives us a "cubical syllepsis" stated in terms of the
